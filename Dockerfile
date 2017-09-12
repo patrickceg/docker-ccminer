@@ -59,6 +59,15 @@ RUN cd $BUILD_FOLDER && \
 RUN cd $BUILD_FOLDER/ccminer && \
     ./build.sh
 
+# Copy the ccminer binary to a /app folder
+USER root
 
-# USER root
+RUN mkdir $APP_FOLDER && \
+    chown $APP_USER.users $APP_FOLDER && \
+    cp $BUILD_FOLDER/ccminer/ccminer $APP_FOLDER
 
+# Load the Jansson library that's now in 
+RUN echo /usr/local/lib > /etc/ld.so.conf.d/userlocal.conf && \
+    ldconfig
+
+# CMD [ $APP_FOLDER/ccminer ]
