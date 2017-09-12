@@ -66,8 +66,17 @@ RUN mkdir $APP_FOLDER && \
     chown $APP_USER.users $APP_FOLDER && \
     cp $BUILD_FOLDER/ccminer/ccminer $APP_FOLDER
 
-# Load the Jansson library that's now in 
+# Load the Jansson library that's now built
 RUN echo /usr/local/lib > /etc/ld.so.conf.d/userlocal.conf && \
     ldconfig
 
-# CMD [ $APP_FOLDER/ccminer ]
+# Symlink the app to /usr/local/bin
+RUN ln -s $APP_FOLDER/ccminer /usr/local/bin/ccminer
+
+# Remove the old build stuff
+RUN rm -rf $BUILD_FOLDER && \
+    yum clean all
+
+USER $APP_USER
+
+CMD [ ccminer ]
