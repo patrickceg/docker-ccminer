@@ -1,2 +1,2 @@
 # docker-ccminer
-Experiment with ccminer 
+Experiment with ccminer from https://github.com/tpruvot/ccminer
