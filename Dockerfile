@@ -14,7 +14,8 @@ RUN yum -y -q install gcc gcc-c++ make wget autoconf automake install openssl-de
 ENV BUILD_FOLDER=/minerbuild
 ENV APP_FOLDER=/app
 ENV APP_USER=minerbuilder
-ENV CCMINER_VERSION=cuda-9
+ENV CCMINER_VERSION=windows
+ENV CCMINER_URL=https://github.com/Nanashi-Meiyo-Meijin/ccminer.git
 
 RUN adduser $APP_USER && \
     mkdir $BUILD_FOLDER && \
@@ -53,7 +54,7 @@ USER $APP_USER
 
 # Clone from the git repo
 RUN cd $BUILD_FOLDER && \
-    git clone https://github.com/tpruvot/ccminer.git --branch $CCMINER_VERSION --single-branch
+    git clone $CCMINER_URL --branch $CCMINER_VERSION --single-branch
 
 # Run the build
 RUN cd $BUILD_FOLDER/ccminer && \
