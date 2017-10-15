@@ -1,6 +1,6 @@
 # The official install talks about Fedora packages, so let's see
 # if Centos is close enough...
-FROM nvidia/cuda:8.0-devel-centos7
+FROM nvidia/cuda:9.0-devel-centos7
 
 # We will need Git to pull the repo
 RUN yum -y -q install git
@@ -14,7 +14,7 @@ RUN yum -y -q install gcc gcc-c++ make wget autoconf automake install openssl-de
 ENV BUILD_FOLDER=/minerbuild
 ENV APP_FOLDER=/app
 ENV APP_USER=minerbuilder
-ENV CCMINER_VERSION=v2.2-tpruvot
+ENV CCMINER_VERSION=cuda-9
 
 RUN adduser $APP_USER && \
     mkdir $BUILD_FOLDER && \
