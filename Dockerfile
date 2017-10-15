@@ -66,17 +66,32 @@ RUN mkdir $APP_FOLDER && \
     chown $APP_USER.users $APP_FOLDER && \
     cp $BUILD_FOLDER/ccminer/ccminer $APP_FOLDER
 
+# Switch to a multistage build with the runtime image
+FROM nvidia/cuda:9.0-runtime-centos7
+
+# Redefine the app user and folder - note app folder must be the same as the first stage
+ENV APP_FOLDER=/app
+ENV APP_USER=miner
+
+# Copy the stuff that we built
+COPY --from=0 $APP_FOLDER $APP_FOLDER
+COPY --from=0 /usr/local/lib /usr/local/lib
+
+# Get the non-devel versions of the libraries that we need
+RUN yum -y -q install openssl libcurl zlib libgomp &&  \
+    yum clean all && \
+    rm -rf /var/cache/yum
+
 # Load the Jansson library that's now built
 RUN echo /usr/local/lib > /etc/ld.so.conf.d/userlocal.conf && \
     ldconfig
 
 # Symlink the app to /usr/local/bin
-RUN ln -s $APP_FOLDER/ccminer /usr/local/bin/ccminer
+RUN ln -s $APP_FOLDER/ccminer /usr/local/bin/ccminer && \
+    chown -R root.root $APP_FOLDER
 
-# Remove the old build stuff
-RUN rm -rf $BUILD_FOLDER && \
-    yum clean all
-
+# Recreate and switch to the app user for this build
+RUN adduser $APP_USER
 USER $APP_USER
 
 CMD [ ccminer ]
