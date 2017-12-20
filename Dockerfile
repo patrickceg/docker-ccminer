@@ -67,7 +67,10 @@ RUN cd $CCMINER_FOLDER && \
      -e 's/#nvcc_ARCH += -gencode=arch=compute_61/nvcc_ARCH += -gencode=arch=compute_61/' \
      -e 's/#nvcc_ARCH += -gencode=arch=compute_35/nvcc_ARCH += -gencode=arch=compute_35/' \
      -e 's/#nvcc_ARCH += -gencode=arch=compute_30/nvcc_ARCH += -gencode=arch=compute_30/' \
-     Makefile.am | tee Makefile.am
+     Makefile.am > Makefile2.am
+RUN cd $CCMINER_FOLDER && \
+    cp Makefile2.am Makefile.am && \
+    rm Makefile2.am
 
 # RUN cd $CCMINER_FOLDER && \
 #    cat Makefile.am
