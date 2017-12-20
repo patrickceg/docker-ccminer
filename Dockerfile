@@ -57,13 +57,24 @@ RUN cd $BUILD_FOLDER && \
 
 ENV CCMINER_FOLDER=$BUILD_FOLDER/ccminer
 
+# Uncomment all the architectures
+
+ENV CCMINER_FOLDER=$BUILD_FOLDER/ccminer
+
 # Replace uncomment all the old architectures
 RUN cd $CCMINER_FOLDER && \
-    pwd && \
-    ls && \
-    sed -e 's/#nvcc_ARCH += -gencode=arch=compute_35/nvcc_ARCH += -gencode=arch=compute_35/' \
+    sed \
+     -e 's/#nvcc_ARCH += -gencode=arch=compute_61/nvcc_ARCH += -gencode=arch=compute_61/' \
+     -e 's/#nvcc_ARCH += -gencode=arch=compute_35/nvcc_ARCH += -gencode=arch=compute_35/' \
      -e 's/#nvcc_ARCH += -gencode=arch=compute_30/nvcc_ARCH += -gencode=arch=compute_30/' \
-     Makefile.am > Makefile.am2
+     Makefile.am | tee Makefile.am
+
+# RUN cd $CCMINER_FOLDER && \
+#    cat Makefile.am
+
+# Run the build
+RUN cd $CCMINER_FOLDER && \
+    ./build.sh
 
 # Run the build
 RUN cd $CCMINER_FOLDER && \
