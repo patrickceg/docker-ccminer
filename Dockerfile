@@ -55,8 +55,18 @@ USER $APP_USER
 RUN cd $BUILD_FOLDER && \
     git clone https://github.com/tpruvot/ccminer.git --branch $CCMINER_VERSION --single-branch
 
+ENV CCMINER_FOLDER=$BUILD_FOLDER/ccminer
+
+# Replace uncomment all the old architectures
+RUN cd $CCMINER_FOLDER && \
+    pwd && \
+    ls && \
+    sed -e 's/#nvcc_ARCH += -gencode=arch=compute_35/nvcc_ARCH += -gencode=arch=compute_35/' \
+     -e 's/#nvcc_ARCH += -gencode=arch=compute_30/nvcc_ARCH += -gencode=arch=compute_30/' \
+     Makefile.am > Makefile.am2
+
 # Run the build
-RUN cd $BUILD_FOLDER/ccminer && \
+RUN cd $CCMINER_FOLDER && \
     ./build.sh
 
 # Copy the ccminer binary to a /app folder
@@ -64,7 +74,7 @@ USER root
 
 RUN mkdir $APP_FOLDER && \
     chown $APP_USER.users $APP_FOLDER && \
-    cp $BUILD_FOLDER/ccminer/ccminer $APP_FOLDER
+    cp $CCMINER_FOLDER/ccminer $APP_FOLDER
 
 # Switch to a multistage build with the runtime image
 FROM nvidia/cuda:9.0-runtime-centos7
