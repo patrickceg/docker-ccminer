@@ -11,9 +11,9 @@ Prerequisite: A machine (physical or virtual) that can use CUDA-enabled GPUs; Ho
 
 ### Usage example
 
-assuming you are running as root or as a user that is part of the _docker_ group):
+Assuming you are running as root or as a user that is part of the _docker_ group):
 
-`nvidia-docker run --rm patrickceg/ccminer:cuda9 ccminer -a lyra2v2 -o stratum+tcp://imaginedpool.doesnotexist.net:1234 -u myuser.w1 -p x`
+`nvidia-docker run --rm patrickceg/ccminer ccminer -a lyra2v2 -o stratum+tcp://imaginedpool.doesnotexist.net:1234 -u myuser.w1 -p x`
 
 This example mines with the settings:
 
@@ -26,7 +26,7 @@ This example mines with the settings:
 
 This is an experiment with ccminer from https://github.com/tpruvot/ccminer
 
-I have used this personally to mine for a few months now on a GTX 1080
+I used this personally to mine for a few months now on a GTX 1080, and recently on a GTX 660 Ti (mainly to heat the room in the winter more than for coins).
 
 The Docker Hub build https://hub.docker.com/r/patrickceg/ccminer/
 
