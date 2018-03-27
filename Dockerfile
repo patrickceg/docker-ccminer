@@ -14,7 +14,7 @@ RUN yum -y -q install gcc gcc-c++ make wget autoconf automake install openssl-de
 ENV BUILD_FOLDER=/minerbuild
 ENV APP_FOLDER=/app
 ENV APP_USER=minerbuilder
-ENV CCMINER_VERSION=cuda-9
+ENV CCMINER_VERSION=2.2.4-tpruvot
 
 RUN adduser $APP_USER && \
     mkdir $BUILD_FOLDER && \

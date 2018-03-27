@@ -13,7 +13,7 @@ Prerequisite: A machine (physical or virtual) that can use CUDA-enabled GPUs; Ho
 
 Assuming you are running as root or as a user that is part of the _docker_ group):
 
-`nvidia-docker run --rm patrickceg/ccminer ccminer -a lyra2v2 -o stratum+tcp://imaginedpool.doesnotexist.net:1234 -u myuser.w1 -p x`
+`docker run --runtime=nvidia --name gpumining patrickceg/ccminer ccminer -a lyra2v2 -o stratum+tcp://imaginedpool.doesnotexist.net:1234 -u myuser.w1 -p x`
 
 This example mines with the settings:
 
@@ -21,6 +21,10 @@ This example mines with the settings:
 * Server using stratum+tcp on imaginedpool.doesnotexist.net port 1234
 * Username myuser.w1
 * Password x
+
+If you feel that your system is stable enough to start mining upon reboot, you can add --restart=always, like this:
+
+`docker run --runtime=nvidia --restart=always --name gpumining patrickceg/ccminer ccminer -a lyra2v2 -o stratum+tcp://imaginedpool.doesnotexist.net:1234 -u myuser.w1 -p x`
 
 ## About the Docker image / Github
 
