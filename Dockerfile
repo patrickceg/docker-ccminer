@@ -1,6 +1,6 @@
 # The official install talks about Fedora packages, so let's see
 # if Centos is close enough...
-FROM nvidia/cuda:9.0-devel-centos7
+FROM nvidia/cuda:10.1-devel-centos7
 
 # We will need Git to pull the repo
 RUN yum -y -q install git
@@ -14,7 +14,7 @@ RUN yum -y -q install gcc gcc-c++ make wget autoconf automake install openssl-de
 ENV BUILD_FOLDER=/minerbuild
 ENV APP_FOLDER=/app
 ENV APP_USER=minerbuilder
-ENV CCMINER_VERSION=2.3-tpruvot
+ENV CCMINER_VERSION=2.3.1-tpruvot
 
 RUN adduser $APP_USER && \
     mkdir $BUILD_FOLDER && \
@@ -91,7 +91,7 @@ RUN mkdir $APP_FOLDER && \
     cp $CCMINER_FOLDER/ccminer $APP_FOLDER
 
 # Switch to a multistage build with the runtime image
-FROM nvidia/cuda:9.0-runtime-centos7
+FROM nvidia/cuda:10.1-runtime-centos7
 
 # Redefine the app user and folder - note app folder must be the same as the first stage
 ENV APP_FOLDER=/app
